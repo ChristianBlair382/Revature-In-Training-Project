@@ -1,2 +1,2 @@
-# Revature In-Training Project
+# Revature In-Training Project - CashCow
 This project is a culmination of the work learning how to use Python, SQL, AWS and other technologies.
