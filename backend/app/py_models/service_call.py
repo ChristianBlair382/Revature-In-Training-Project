@@ -1,12 +1,5 @@
-# OMR-BASED
-
-
-
 # PYTHON-BASED
 
-"""
-
-"""
 from typing import ClassVar
 from .enums import SERVICE_CALL_PRIORITY, SERVICE_CALL_STATUS
 
@@ -31,3 +24,14 @@ class Service_Call:
             if service_call.id == id:
                 return service_call
         return None
+
+    def update_status(self, new_status: SERVICE_CALL_STATUS) -> None:
+        #need to check that the provided value is a valid status against the enum
+        if not isinstance(new_status, SERVICE_CALL_STATUS):
+            raise TypeError(f"Expected SERVICE_CALL_STATUS enum, got {type(new_status).__name__}")
+
+        #if the current and new status is the same, do nothing    
+        if self.status == new_status:
+            return
+        
+        self.status == new_status

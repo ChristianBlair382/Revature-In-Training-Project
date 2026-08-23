@@ -12,7 +12,7 @@ INSERT INTO atms (id, serial_num, model, cash_lvl, branch_id, status) VALUES
     (2, 'DL-334518', 'Model XL 3.4', 495.23, 2, 'Low_Cash'),
     (3, 'DL-318291', 'Model XL 3.4', 5928.10, 1, 'Operational'),
     (4, 'DL-393023', 'Model XL 3.4', 3129.45, 2, 'Maintenance'),
-    (5, 'DL-381920', 'Model XL 3.4', 3810.78, 2, 'Operational');
+    (5, 'DL-371140', 'Model XL 3.4', 3810.78, 2, 'Operational');
 
 INSERT INTO service_calls (id, title, atm_id, technician_id, priority, status) VALUES
     (1, 'Account Access Denied', 1, 201, 'Low', 'In-Progress'),

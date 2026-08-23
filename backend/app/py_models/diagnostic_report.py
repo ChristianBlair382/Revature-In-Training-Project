@@ -1,12 +1,5 @@
-# OMR-BASED
-
-
-
 # PYTHON-BASED
 
-"""
-
-"""
 from typing import ClassVar
 from datetime import datetime
 
