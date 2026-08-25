@@ -1,6 +1,8 @@
+# Run this from backend: fastapi dev app/main.py
+
 from fastapi import FastAPI
 
-from .routers import branches, technicians, atms, service_calls, diagnostic_reports
+from .routers import branches, technicians, atms, service_calls, diagnostic_reports, auth
 
 app = FastAPI(
     title="CashCow",
@@ -13,6 +15,7 @@ app.include_router(technicians.router)
 app.include_router(atms.router)
 app.include_router(service_calls.router)
 app.include_router(diagnostic_reports.router)
+app.include_router(auth.router)
 
 @app.get("/health", tags=["health"])
 async def health_check() -> dict[str, str]:

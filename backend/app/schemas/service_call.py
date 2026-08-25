@@ -24,3 +24,7 @@ class Discrepency_Read(BaseModel):
     atm_branch_id: int
     technician_branch_id: int
     model_config = ConfigDict(from_attributes=True)
+
+class Service_Call_Status_Update(BaseModel):
+    status: SERVICE_CALL_STATUS
+    model_config = ConfigDict(from_attributes=True)

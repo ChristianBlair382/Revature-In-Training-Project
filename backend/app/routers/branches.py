@@ -2,8 +2,8 @@ from fastapi import APIRouter, Depends, HTTPException, status, Query
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.dependencies import get_db
-from app.orm_models.branch import Branch
+from app.dependencies import get_db, get_current_user, require_role
+from app.orm_models import Branch, User, ROLE
 from app.schemas.branch import Branch_Read, Branch_Create
 
 router = APIRouter(prefix="/branches", tags=["branches"])
@@ -11,7 +11,10 @@ router = APIRouter(prefix="/branches", tags=["branches"])
 # GET ENDPOINTS
 
 @router.get("", response_model=list[Branch_Read])
-async def list_branches(db: AsyncSession = Depends(get_db)):
+async def list_branches(
+    db: AsyncSession = Depends(get_db),
+    _: User = Depends(get_current_user)
+):
     statement = select(Branch).order_by(Branch.id)
 
     results = await db.execute(statement)
@@ -19,7 +22,11 @@ async def list_branches(db: AsyncSession = Depends(get_db)):
     return list(results.scalars().all())
 
 @router.get("/{branch_id}", response_model=Branch_Read)
-async def find_branch_by_id(branch_id: int, db: AsyncSession = Depends(get_db)):
+async def find_branch_by_id(
+    branch_id: int,
+    db: AsyncSession = Depends(get_db),
+    _: User = Depends(get_current_user)
+):
     branch = await db.get(Branch, branch_id)
 
     if not branch:
@@ -32,7 +39,11 @@ async def find_branch_by_id(branch_id: int, db: AsyncSession = Depends(get_db)):
 # POST ENDPOINTS
 
 @router.post("", response_model=Branch_Read, status_code=status.HTTP_201_CREATED)
-async def create_branch(payload: Branch_Create, db: AsyncSession = Depends(get_db)):
+async def create_branch(
+    payload: Branch_Create,
+    db: AsyncSession = Depends(get_db),
+    _: User = Depends(require_role(ROLE.OPERATIONS_ADMIN))
+):
     new_branch = Branch(**payload.model_dump())
     db.add(new_branch)
     await db.commit()

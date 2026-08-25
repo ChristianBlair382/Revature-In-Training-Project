@@ -45,3 +45,14 @@ class Service_Call(Base):
 
     def __repr__(self) -> str:
         return (f"Service_Call(ID={self.id}, Title={self.title!r}, Priority={self.priority!r}, Status={self.status.value})")
+
+    def update_status(self, new_status: SERVICE_CALL_STATUS) -> None:
+        #need to check that the provided value is a valid status against the enum
+        if not isinstance(new_status, SERVICE_CALL_STATUS):
+            raise TypeError(f"Expected MissionStatus enum, got {type(new_status).__name__}")
+
+        #if the current and new status is the same, do nothing    
+        if self.status == new_status:
+            return
+        
+        self.status = new_status

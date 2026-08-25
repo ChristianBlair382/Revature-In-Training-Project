@@ -4,9 +4,8 @@ from fastapi import APIRouter, Depends, HTTPException, status, Query
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.dependencies import get_db
-from app.orm_models.enums import ATM_STATUS
-from app.orm_models.atm import ATM
+from app.dependencies import get_db, get_current_user, require_role
+from app.orm_models import ATM, User, ATM_STATUS, ROLE
 from app.schemas.atm import ATM_Create, ATM_Read
 
 router = APIRouter(prefix="/atms", tags=["atms"])
@@ -21,7 +20,8 @@ async def list_atms(
             le=7500,
             description="Only return ATMs strictly below this cash limit"
         ),
-        db: AsyncSession = Depends(get_db)
+        db: AsyncSession = Depends(get_db),
+        _: User = Depends(get_current_user)
     ):
     statement = select(ATM).where(ATM.status != ATM_STATUS.OFFLINE)
 
@@ -34,7 +34,11 @@ async def list_atms(
     return list(result.scalars().all())
 
 @router.get("/{atm_id}", response_model=ATM_Read)
-async def get_atm_by_id(atm_id: int, db: AsyncSession = Depends(get_db)):
+async def get_atm_by_id(
+    atm_id: int,
+    db: AsyncSession = Depends(get_db),
+    _: User = Depends(get_current_user)
+):
     atm = await db.get(ATM, atm_id)
 
     if not atm:
@@ -48,7 +52,11 @@ async def get_atm_by_id(atm_id: int, db: AsyncSession = Depends(get_db)):
 # POST ENDPOINTS
 
 @router.post("", response_model=ATM_Read, status_code=status.HTTP_201_CREATED)
-async def create_atm(payload: ATM_Create, db: AsyncSession = Depends(get_db)):
+async def create_atm(
+    payload: ATM_Create,
+    db: AsyncSession = Depends(get_db),
+    _: User = Depends(require_role(ROLE.OPERATIONS_ADMIN))
+):
     new_atm = ATM(**payload.model_dump())
     db.add(new_atm)
     await db.commit()
