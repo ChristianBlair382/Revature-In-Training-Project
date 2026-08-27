@@ -1,4 +1,4 @@
-// Dummy Data for rendering debugging
+// Dummy Data for ATMs
 
 export const mockATMs = [
     {id: 1, serial_num: "DL-381920", model: "XL 3", cash_lvl: 3129.45, status: "Operational", branch_id: 1},

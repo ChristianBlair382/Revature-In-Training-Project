@@ -7,7 +7,7 @@ function ATMList({atms}) {
     return (
         <Grid container spacing={2}>
             {atms.map((atm)=>
-                <Grid item key={atm.id}>
+                <Grid item="true" key={atm.id}>
                     <ATMCard atm={atm}/>
                 </Grid>
             )}

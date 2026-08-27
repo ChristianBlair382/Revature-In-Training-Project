@@ -1,22 +1,42 @@
+import { useMemo } from "react";
 import { Container, Typography, Box } from "@mui/material";
-import AppHeader from "./components/layout/AppHeader.jsx";
-import ATMList from "./components/atms/ATMList.jsx";
-import { mockATMs } from './mockData/atms.js';
+import { RichTreeView } from "@mui/x-tree-view";
 
-function App() {
+import AppHeader from "./components/layout/AppHeader.jsx";
+import CustomTreeItem from "./components/layout/TreeItemCustomLayout.jsx";
+//import ATMList from "./components/atms/ATMList.jsx";
+import { mockBranches } from "./mockData/branches.js";
+import { mockATMs } from './mockData/atms.js';
+import { mockTechnicians } from "./mockData/technicians.js";
+import { transformBranches } from "./components/branches/BranchTreeItem.jsx";
+
+export default function App() {
+  const items = useMemo(
+    () => transformBranches(mockBranches, mockATMs, mockTechnicians),
+    []
+  );
+
   return (
     <>
       <AppHeader />
       <Container maxWidth='lg' sx={{ mt: 4 }}>
-        <Typography variant="h5" component="h2" gutterBottom>
+        <Typography sx={{ color: 'black' }} variant="h5" component="h2" gutterBottom>
           Cash Cow Overview
         </Typography>
-        <Box sx={{ mb: 4 }}>
-          <ATMList atms={mockATMs} />
+        <Box>
+          <RichTreeView items={items} slots={{ item: CustomTreeItem }} />
         </Box>
       </Container>
     </>
-  )
+  );
 }
 
-export default App
+/**
+ * 
+    <Typography sx={{color: 'black'}} variant="h5" component="h2" gutterBottom>
+      LIVE ATMS
+    </Typography>
+    <Box sx={{ mb: 4 }}>
+      <ATMList atms={mockATMs} />
+    </Box>
+ */
