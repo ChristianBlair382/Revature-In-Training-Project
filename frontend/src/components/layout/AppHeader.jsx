@@ -1,9 +1,9 @@
-import { AppBar, Toolbar, Typography } from "@mui/material";
+import { AppBar, Toolbar, Typography, Box, Button } from "@mui/material";
 import PrecisionManufacturingIcon from "@mui/icons-material/PrecisionManufacturing"
 
 // Component Structure: AppBar(Toolbar(PrecisionManufacturingIcon, Typography))
 
-function AppHeader() {
+function AppHeader({username, role, onLogout}) {
     return (
         <AppBar position="static">
             <Toolbar>
@@ -11,6 +11,12 @@ function AppHeader() {
                 <Typography variant="6" component="h1">
                     CashCow Branch Operations Command Center
                 </Typography>
+                {username && (
+                    <Box>
+                        <Typography>{username}({role})</Typography>
+                        <Button color="inherit" onClick={onLogout}>Log Out</Button>
+                    </Box>
+                )}
             </Toolbar>
         </AppBar>
     )

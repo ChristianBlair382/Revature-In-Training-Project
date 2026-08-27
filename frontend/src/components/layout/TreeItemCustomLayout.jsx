@@ -40,13 +40,25 @@ export default function CustomTreeItem(props) {
             <>
                 <Chip 
                     size="small"
-                    label={item.status}
+                    label={`Status: ${item.status}`}
                     color={SERVICE_CALL_STATUS_COLOR[item.status] ?? 'default'}
                 />
                 <Chip 
                     size="small"
-                    label={item.priority}
+                    label={`Priority: ${item.priority}`}
                     color={SERVICE_CALL_PRIORITY_COLOR[item.priority] ?? 'default'}
+                />
+            </>
+          )}
+          {item?.type === 'ServiceCall' && 
+            item?.atm_branch_id !== undefined &&
+            item?.technician_branch_id !== undefined &&
+            item.atm_branch_id !== item.technician_branch_id && (
+            <>
+                <Chip 
+                    size="small"
+                    label="Discrepency Detected!"
+                    color={'error'}
                 />
             </>
           )}

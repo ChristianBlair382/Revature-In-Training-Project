@@ -1,9 +1,8 @@
-import { mockServiceCalls } from "../../mockData/serviceCalls";
 import { transformServiceCallForAtm } from "../service_calls/ServiceCallTreeItem";
 
 const LOW_CASH_THRESHOLD = 500;
 
-export function transformAtmsForBranch( atms, branchId ) {
+export function transformAtmsForBranch( atms, branchId, serviceCalls = [], diagnosticReports = [], technicians = [] ) {
     return atms
         .filter((atm) => atm.branch_id === branchId)
         .map((atm) => ({
@@ -11,6 +10,6 @@ export function transformAtmsForBranch( atms, branchId ) {
             label: `${atm.serial_num} (${atm.model})`,
             type: 'Atm',
             status: atm.status,
-            children: transformServiceCallForAtm( mockServiceCalls, atm.id ),
+            children: transformServiceCallForAtm( serviceCalls, atm.id, diagnosticReports, atms, technicians ),
         }));
 }
