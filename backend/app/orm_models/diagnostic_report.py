@@ -17,7 +17,7 @@ class Diagnostic_Report(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     service_call_id: Mapped[int] = mapped_column(Integer, ForeignKey("service_calls.id"))
-    file_url: Mapped[str] = mapped_column(Text)
+    file_url: Mapped[str] = mapped_column(Text, unique=True)
     notes: Mapped[str] = mapped_column(Text, nullable=True)
 
     # server_default=func.now() - defaults created_at to the current timestamp upon insertion

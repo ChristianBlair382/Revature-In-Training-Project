@@ -1,3 +1,6 @@
+# Rund with: python -m scripts.seed_users
+# From backend with venv active
+
 import asyncio
 
 from app.database import AsyncSessionLocal

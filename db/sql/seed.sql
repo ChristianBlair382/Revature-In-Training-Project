@@ -22,4 +22,4 @@ INSERT INTO service_calls (id, title, atm_id, technician_id, priority, status) V
 
 INSERT INTO diagnostic_reports (id, service_call_id, file_url, notes) VALUES
     (1, 3, 'path', 'Issue fixed: replaced deposit funnel mechanism'),
-    (2, 4, 'path', 'May stem from outdated systems');
+    (2, 4, 'path2', 'May stem from outdated systems');

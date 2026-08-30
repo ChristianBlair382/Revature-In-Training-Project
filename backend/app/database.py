@@ -3,7 +3,7 @@ from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_asyn
 
 DATABASE_URL = os.environ.get(
     "DATABASE_URL",
-    "postgresql+asyncpg://postgres:L%40ctoseFr33@localhost:5432/cashcow_dev_2478",
+    "postgresql+asyncpg://postgres:Lact0seFr33@cashcow-2478.ctagwcmes3hh.us-east-2.rds.amazonaws.com:5432/cashcow",
 )
 
 engine = create_async_engine(DATABASE_URL, echo=True)
