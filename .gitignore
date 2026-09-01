@@ -248,3 +248,5 @@ ubuntu_commands.txt
 backend/uploads/
 
 *.log
+
+backend/package/

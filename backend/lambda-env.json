@@ -1,0 +1,7 @@
+{
+    "Variables" : {
+        "DATABASE_URL" : "postgresql+asyncpg://postgres:Lact0seFr33@cashcow-2478.ctagwcmes3hh.us-east-2.rds.amazonaws.com/cashcow",
+        "SECRET_KEY" : "45ab69596168d1a2a7f13034b049ea03af08ab147b5f646390330fbcc64f4b21",
+        "FRONTEND_ORIGIN" : "https://duv4mxothg4lf.cloudfront.net"
+    }
+}
