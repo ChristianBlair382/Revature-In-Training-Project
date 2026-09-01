@@ -4,7 +4,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.dependencies import get_db, get_current_user, require_role
 from app.orm_models import ATM, Service_Call, Technician, User, SERVICE_CALL_PRIORITY, SERVICE_CALL_STATUS, ROLE
-from app.schemas.service_call import Service_Call_Create, Service_Call_Read, Discrepency_Read
+from app.schemas.service_call import Service_Call_Create, Service_Call_Read, Discrepency_Read, Service_Call_Status_Update
 
 router = APIRouter(prefix="/service_calls", tags=["service_calls"])
 
@@ -76,7 +76,7 @@ async def create_service_call(
 @router.patch("/service_call/{service_call_id}/status", response_model=Service_Call_Read)
 async def update_service_call_status(
     service_call_id: int,
-    new_status: SERVICE_CALL_STATUS,
+    payload: Service_Call_Status_Update,
     db: AsyncSession = Depends(get_db),
     _: User = Depends(require_role(ROLE.OPERATIONS_ADMIN, ROLE.FIELD_TECHNICIAN)) 
 ):
@@ -87,7 +87,7 @@ async def update_service_call_status(
             detail=f"Service_Call {service_call_id} not found."
         )
 
-    service_call.update_status(new_status)
+    service_call.update_status(payload.status)
 
     await db.commit()
     await db.refresh(service_call)

@@ -7,7 +7,7 @@ class User_Base(BaseModel):
     role: ROLE = ROLE.AUDITOR
 
 class User_Create(User_Base):
-    hashed_password: str = Field(min_length=8)
+    password: str = Field(min_length=8)
 
 class User_Read(User_Base):
     id: int
