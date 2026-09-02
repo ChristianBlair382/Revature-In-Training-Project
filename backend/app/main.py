@@ -1,13 +1,15 @@
 # Run this from backend: fastapi dev app/main.py
 
 import os
+from app.config import settings
 from sqlalchemy import text
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from .routers import branches, technicians, atms, service_calls, diagnostic_reports, auth
 
-FRONTEND_ORIGIN = os.environ.get("FRONTEND_ORIGIN", "http://localhost:5173")
+FRONTEND_ORIGIN = settings.frontend_origin
+# os.environ.get("FRONTEND_ORIGIN", "http://localhost:5173")
 
 app = FastAPI(
     title="CashCow",

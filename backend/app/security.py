@@ -1,9 +1,11 @@
-import os
+# import os
+from app.config import settings
 import bcrypt
 import jwt
 from datetime import datetime, timedelta, timezone
 
-SECRET_KEY = os.environ.get("SECRET_KEY", "<real-secret-key-goes-here>")
+SECRET_KEY = settings.secret_key
+# os.environ.get("SECRET_KEY", "<real-secret-key-goes-here>")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
