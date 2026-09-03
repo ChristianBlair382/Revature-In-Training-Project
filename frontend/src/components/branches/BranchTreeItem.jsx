@@ -3,7 +3,7 @@ import { transformTechniciansForBranch } from "../technicians/TechnicianTreeItem
 
 export function transformBranches(branches, atms, technicians, serviceCalls = [], diagnosticReports = []) {
   return branches.map((branch) => ({
-    id: `branch-${branch.id}`,
+    id: `Branch-${branch.id}`,
     type: "Branch",
     label: `${branch.name} - ${branch.location_region}`,
     children: [

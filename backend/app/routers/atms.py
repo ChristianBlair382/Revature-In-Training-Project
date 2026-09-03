@@ -22,8 +22,8 @@ async def list_atms(
         ),
         db: AsyncSession = Depends(get_db),
         _: User = Depends(get_current_user)
-    ):
-    statement = select(ATM).where(ATM.status != ATM_STATUS.OFFLINE)
+):
+    statement = select(ATM)
 
     if max_cash is not None:
         statement = statement.where(ATM.cash_lvl < max_cash)

@@ -9,7 +9,7 @@ INSERT INTO technicians (id, name, branch_id) VALUES
 
 INSERT INTO atms (id, serial_num, model, cash_lvl, branch_id, status) VALUES
     (1, 'DL-381920', 'Model XL 3.4', 783.02, 1, 'Operational'),
-    (2, 'DL-334518', 'Model XL 3.4', 495.23, 2, 'Low_Cash'),
+    (2, 'DL-334518', 'Model XL 3.4', 495.23, 2, 'Operational'),
     (3, 'DL-318291', 'Model XL 3.4', 5928.10, 1, 'Operational'),
     (4, 'DL-393023', 'Model XL 3.4', 3129.45, 2, 'Maintenance'),
     (5, 'DL-371140', 'Model XL 3.4', 3810.78, 2, 'Operational');

@@ -1,4 +1,4 @@
-CREATE TYPE ATM_STATUS AS ENUM ('Operational', 'Low_Cash', 'Maintenance', 'Offline');
+CREATE TYPE ATM_STATUS AS ENUM ('Operational', 'Maintenance', 'Offline');
 CREATE TYPE SERVICE_CALL_STATUS AS ENUM ('Pending', 'In-Progress', 'Completed', 'Failed');
 CREATE TYPE SERVICE_CALL_PRIORITY AS ENUM ('Low', 'Medium', 'Critical');
 

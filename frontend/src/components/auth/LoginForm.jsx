@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Alert, Box, Button, Paper, TextField, Typography } from "@mui/material";
+import { Alert, Box, Button, CircularProgress, Paper, TextField, Typography } from "@mui/material";
 import { useAuth } from "../../context/AuthContext.jsx"
 
 export default function LoginForm() {
@@ -7,15 +7,19 @@ export default function LoginForm() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
+    const [isLoggingIn, setIsLoggingIn] = useState(false);
 
 
     const handleSubmit = async (event) => {
         event.preventDefault()
         setError(null);
+        setIsLoggingIn(true);
         try {
             await login(username, password);
         } catch {
             setError('Username or password invalid.')
+        } finally {
+            setIsLoggingIn(false);
         }
     }
 
@@ -28,6 +32,15 @@ export default function LoginForm() {
                         {error}
                     </Alert>
                 }
+                {isLoggingIn && (
+                    <Alert
+                        severity="info"
+                        icon={<CircularProgress size={20} />}
+                        sx={{mb: 2}}
+                    >
+                        Logging in...
+                    </Alert>
+                )}
                 <TextField
                     label="Username"
                     fullWidth
@@ -48,8 +61,9 @@ export default function LoginForm() {
                     variant="contained"
                     fullWidth
                     sx={{ mt: 2 }}
+                    disabled={isLoggingIn}
                 >
-                    Log In
+                    {isLoggingIn ? 'Logging In...' : 'Log In'}
                 </Button>
             </Paper>
         </Box>

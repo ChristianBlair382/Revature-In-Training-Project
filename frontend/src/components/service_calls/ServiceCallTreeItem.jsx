@@ -8,7 +8,7 @@ export function transformServiceCallForAtm( serviceCalls, atmId, diagnosticRepor
             const technician = technicians.find((t) => t.id === serviceCall.technician_id);
 
             return {
-                id: `serviceCall-${serviceCall.id}`,
+                id: `Service Call-${serviceCall.id}`,
                 type: "ServiceCall",
                 label: `${serviceCall.title} (ATM: ${serviceCall.atm_id}, Technician: ${serviceCall.technician_id})`,
                 status: serviceCall.status,

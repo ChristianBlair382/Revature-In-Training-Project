@@ -1,6 +1,8 @@
 import {
+  Alert,
   Box,
   Button,
+  CircularProgress,
   Dialog,
   DialogActions,
   DialogContent,
@@ -31,7 +33,7 @@ const tableFields = {
     {
       name: "status",
       label: "Status",
-      options: ["Operational", "Low_Cash", "Maintenance", "Offline"],
+      options: ["Operational", "Maintenance", "Offline"],
     },
   ],
   branches: [
@@ -65,10 +67,13 @@ const tableFields = {
 function AddEntreeDialog({ open, onClose, onSuccess }) {
   const [selectedTable, setSelectedTable] = useState("");
   const [formValues, setFormValues] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState(null);
 
   const handleTableChange = (event) => {
     const table = event.target.value;
     setSelectedTable(table);
+    setSubmitError(null);
     setFormValues(
       Object.fromEntries(tableFields[table].map((field) => [field.name, ""]))
     );
@@ -82,13 +87,37 @@ function AddEntreeDialog({ open, onClose, onSuccess }) {
     }));
   };
 
+  const validateForm = () => {
+    const invalidFields = tableFields[selectedTable].filter((field) => {
+      const value = formValues[field.name];
+      const isEmpty = value === undefined || value === null || String(value).trim() === "";
+      const isNegativeNumber = field.type === "number" && Number(value) < 0;
+
+      return isEmpty || isNegativeNumber;
+    });
+
+    if (invalidFields.length === 0) return true;
+
+    const fieldLabels = invalidFields.map((field) => field.label).join(", ");
+    setSubmitError(`Please provide valid values for: ${fieldLabels}.`);
+    return false;
+  };
+
   const handleCreate = async () => {
+    if (!validateForm()) return;
+
+    setIsSubmitting(true);
+    setSubmitError(null);
+
     try {
       const response = await apiClient.post(`/${selectedTable}`, formValues);
       onSuccess?.(response.data);
       onClose();
     } catch (error) {
-      console.error("Failed to create entree:", error);
+      const message = error.response?.data?.detail || error.message || "The entree could not be created.";
+      setSubmitError(message);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -115,6 +144,11 @@ function AddEntreeDialog({ open, onClose, onSuccess }) {
             ))}
           </Select>
         </FormControl>
+        {submitError && (
+          <Alert severity="error" sx={{ mt: 2 }}>
+            {submitError}
+          </Alert>
+        )}
         {selectedTable && (
           <Box sx={{ display: "grid", gap: 2, mt: 3 }}>
             {tableFields[selectedTable].map((field) => (
@@ -156,9 +190,9 @@ function AddEntreeDialog({ open, onClose, onSuccess }) {
         )}
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose}>Cancel</Button>
-        <Button variant="contained" onClick={handleCreate} disabled={!selectedTable}>
-          Add Entree
+        <Button onClick={onClose} disabled={isSubmitting}>Cancel</Button>
+        <Button variant="contained" onClick={handleCreate} disabled={!selectedTable || isSubmitting}>
+          {isSubmitting ? <CircularProgress size={24} color="inherit" /> : "Add Entree"}
         </Button>
       </DialogActions>
     </Dialog>

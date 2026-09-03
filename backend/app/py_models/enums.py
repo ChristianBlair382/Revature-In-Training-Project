@@ -2,7 +2,6 @@ from enum import Enum
 
 class ATM_STATUS(str, Enum):
     OPERATIONAL = "Operational"
-    LOW_CASH = "Low_Cash"
     MAINTENANCE = "Maintenance"
     OFFLINE = "Offline"
 
